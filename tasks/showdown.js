@@ -8,6 +8,7 @@
 
 'use strict';
 var Showdown = require('showdown');
+var path = require('path');
 
 module.exports = function (grunt) {
 
@@ -19,11 +20,18 @@ module.exports = function (grunt) {
 
         // Merge task-specific and/or target-specific options with these defaults.
         var options = this.options({
+            fileExtension:'md',
+            extensions:{}
+        });
 
-
-        var showdown = new Showdown.converter();
+        var showdown = new Showdown.converter(options.extensions);
         // Iterate over all specified file groups.
         this.files.forEach(function (f) {
+            if(!grunt.file.exists(f.dest) || !grunt.file.isDir(f.dest)){
+                grunt.log.warn('Destination directory not found');
+                return false;
+            }
+
             // Concat specified files.
             f.src.filter(function (filepath) {
                 console.log("src=" + filepath);
@@ -35,9 +43,12 @@ module.exports = function (grunt) {
                     return true;
                 }
             }).forEach(function (filepath) {
-                var src = grunt.file.read(filepath);
-                console.log(src);
-                grunt.file.write(filepath + ".html", src);
+                var result = showdown.makeHtml(grunt.file.read(filepath));
+
+                console.log(result);
+
+                var destPath = f.dest + "/" + path.basename(filepath, '.' + options.fileExtension);
+                grunt.file.write(destPath + ".html", result);
             });
 //      }).map(function(filepath) {
 //        // Read file source.

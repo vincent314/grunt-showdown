@@ -32,7 +32,8 @@ module.exports = function (grunt) {
         showdown: {
             markdown: {
                 files: [
-                    {src: ['test/fixtures/page1.md']}
+                    {src: ['test/fixtures/*.md'],
+                    dest:'test/expected/'}
                 ]
             }
         },
