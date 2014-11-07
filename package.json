@@ -1,7 +1,7 @@
 {
   "name": "grunt-showdown",
   "description": "Showdown grunt plugin",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "homepage": "https://github.com/vincent314/grunt-showdown",
   "author": {
     "name": "vincent314"
@@ -30,7 +30,9 @@
     "grunt-contrib-clean": "^0.5.0",
     "grunt-contrib-jshint": "^0.9.2",
     "grunt-contrib-nodeunit": "^0.3.3",
-    "grunt-debug-task": "^0.1.5"
+    "grunt-debug-task": "^0.1.5",
+    "grunt-mkdir": "^0.1.2",
+    "showdown-furigana-extension": "^1.0.2"
   },
   "peerDependencies": {
     "grunt": "~0.4.5",

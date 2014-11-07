@@ -23,19 +23,14 @@ var grunt = require('grunt');
 */
 
 exports.showdown = {
-  setUp: function(done) {
-    // setup here if necessary
-      console.log('Starting Tests');
-    done();
-  },
-  markdown_options: function(test) {
-      console.log('Starting markdown_options test');
+  furigana: function(test) {
+      console.log('Starting furigana test');
     test.expect(1);
 
-    var actual = grunt.file.read('test/fixtures/page1.md');
-    var expected = grunt.file.read('test/expected/custom_options');
-    test.equal(actual, expected, 'should describe what the custom option(s) behavior is.');
+    var actual = grunt.file.read('tmp/furigana.html');
+    var expected = grunt.file.read('test/expected/furigana.html');
+    test.equal(actual, expected, 'Should generate ruby html element');
 
     test.done();
-  },
+  }
 };
