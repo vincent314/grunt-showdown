@@ -19,20 +19,21 @@ module.exports = function (grunt) {
 
         // Merge task-specific and/or target-specific options with these defaults.
         var options = this.options({
-            fileExtension:'md',
-            extensions:[],
-            customExtensions:[]}
+                fileExtension: 'md',
+                extensions: [],
+                customExtensions: []
+            }
         );
 
-        options.customExtensions.forEach(function(ext){
+        options.customExtensions.forEach(function (ext) {
             options.extensions.push(require(ext));
         });
 
 
-        var showdown = new Showdown.converter({extensions:options.extensions});
+        var showdown = new Showdown.converter({extensions: options.extensions});
         // Iterate over all specified file groups.
         this.files.forEach(function (f) {
-            if(!grunt.file.exists(f.dest) || !grunt.file.isDir(f.dest)){
+            if (!grunt.file.exists(f.dest) || !grunt.file.isDir(f.dest)) {
                 grunt.log.warn('Destination directory not found');
                 return false;
             }
@@ -40,16 +41,17 @@ module.exports = function (grunt) {
             // Concat specified files.
             f.src.filter(function (filepath) {
                 // Warn on and remove invalid source files (if nonull was set).
-                if (!grunt.file.exists(filepath)) {
-                    grunt.log.warn('Source file "' + filepath + '" not found.');
+                if (!grunt.file.exists(f.cwd || '', filepath)) {
+                    grunt.log.warn('Source file "' + path.join(f.cwd || '', filepath) + '" not found.');
                     return false;
                 } else {
                     return true;
                 }
-            }).forEach(function (filepath) {
+            }).forEach(function (file) {
+                var filepath = path.join(f.cwd || '', file);
                 var result = showdown.makeHtml(grunt.file.read(filepath));
 
-                var destPath = f.dest + "/" + path.basename(filepath, '.' + options.fileExtension);
+                var destPath = f.dest + "/" + file.replace(new RegExp('\\.' + options.fileExtension + '$'), '');
                 var destFile = destPath + ".html";
                 grunt.file.write(destFile, result);
                 grunt.log.writeln('File "' + destFile + '" created.');

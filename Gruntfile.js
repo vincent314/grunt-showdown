@@ -33,12 +33,14 @@ module.exports = function (grunt) {
             tests: {
                 files: [
                     {
-                        src: ['test/fixtures/*.md'],
+                        cwd: 'test/fixtures',
+                        //src: ['test/fixtures/**/*.md'],
+                        src: ['**/*.md'],
                         dest: 'tmp/'
                     }
                 ],
                 options: {
-                    extensions: ['github'],
+                    extensions: ['github','table'],
                     customExtensions: ['showdown-furigana-extension']
                 }
             }
