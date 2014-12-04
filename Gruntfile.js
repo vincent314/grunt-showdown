@@ -34,9 +34,21 @@ module.exports = function (grunt) {
                 files: [
                     {
                         cwd: 'test/fixtures',
-                        //src: ['test/fixtures/**/*.md'],
                         src: ['**/*.md'],
                         dest: 'tmp/'
+                    }
+                ],
+                options: {
+                    extensions: ['github','table'],
+                    customExtensions: ['showdown-furigana-extension']
+                }
+            },
+            testSingle: {
+                files: [
+                    {
+                        cwd: 'test/fixtures',
+                        src: ['page1.md','table.md'],
+                        dest: 'tmp/single.html'
                     }
                 ],
                 options: {
