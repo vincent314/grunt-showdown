@@ -1,11 +1,27 @@
-# grunt-showdown
-
+grunt-showdown
+--
 > Showdown grunt plugin
 
 Grunt plugin to convert Markdown documents into HTML using the [showdown](https://github.com/showdownjs/showdown) library.
 
+<!-- TOC -->
+
+- [Getting Started](#getting-started)
+- [The "showdown" task](#the-showdown-task)
+    - [Overview](#overview)
+    - [Options](#options)
+        - [options.showdown](#optionsshowdown)
+        - [options.customExtensions](#optionscustomextensions)
+    - [Usage Examples](#usage-examples)
+        - [Default Options](#default-options)
+        - [Custom Options](#custom-options)
+- [Contributing](#contributing)
+- [Release History](#release-history)
+
+<!-- /TOC -->
+
 ## Getting Started
-This plugin requires Grunt `~0.4.5`
+This plugin requires Grunt `^1.0.1` and showdown.js `^1.8.2`
 
 If you haven't used [Grunt](http://gruntjs.com/) before, be sure to check out the [Getting Started](http://gruntjs.com/getting-started) guide, as it explains how to create a [Gruntfile](http://gruntjs.com/sample-gruntfile) as well as install and use Grunt plugins. Once you're familiar with that process, you may install this plugin with this command:
 
@@ -22,6 +38,7 @@ grunt.loadNpmTasks('grunt-showdown');
 ## The "showdown" task
 
 ### Overview
+
 In your project's Gruntfile, add a section named `showdown` to the data object passed into `grunt.initConfig()`.
 
 ```js
@@ -39,13 +56,47 @@ grunt.initConfig({
 
 ### Options
 
-#### options.extensions
-Type: `Array[String]`
-Default value: `[]`
+#### options.showdown
+Type: `Object`
+Default value: `{}`
 
-List of [built-in showdown extensions](https://github.com/showdownjs/showdown/tree/master/src/extensions) in String format.
+This is the default showdown.js options object. Please have look at the showdown.js [Wiki](https://github.com/showdownjs/showdown/wiki/Showdown-options)
 
-This list is directly passed to the showdown library.
+At the time of writing this are the default values:
+
+```json
+{ 
+  omitExtraWLInCodeBlocks: false,
+  noHeaderId: false,
+  prefixHeaderId: false,
+  rawPrefixHeaderId: false,
+  ghCompatibleHeaderId: false,
+  rawHeaderId: false,
+  headerLevelStart: false,
+  parseImgDimensions: false,
+  simplifiedAutoLink: false,
+  excludeTrailingPunctuationFromURLs: false,
+  literalMidWordUnderscores: false,
+  literalMidWordAsterisks: false,
+  strikethrough: false,
+  tables: false,
+  tablesHeaderId: false,
+  ghCodeBlocks: true,
+  tasklists: false,
+  smoothLivePreview: false,
+  smartIndentationFix: false,
+  disableForced4SpacesIndentedSublists: false,
+  simpleLineBreaks: false,
+  requireSpaceBeforeHeadingText: false,
+  ghMentions: false,
+  ghMentionsLink: 'https://github.com/{u}',
+  encodeEmails: true,
+  openLinksInNewWindow: false,
+  backslashEscapesHTMLTags: false,
+  emoji: false,
+  underline: false 
+}
+```
 
 #### options.customExtensions
 Type: `Array[String]`
@@ -62,8 +113,11 @@ In this example, the default options are used to convert markdown document with 
 grunt.initConfig({
   showdown: {
     options: {
-        extensions: ['github','table'],
-        customExtensions: ['showdown-furigana-extension']
+        showdown: {
+          tables: true,
+          strikethrough: true,
+          ghCompatibleHeaderId: true,
+        }
     },
     files: [
         {
@@ -84,7 +138,6 @@ plus a custom extension `showdown-furigana-extension`.
 grunt.initConfig({
   showdown: {
     options: {
-        extensions: ['github','table'],
         customExtensions: ['showdown-furigana-extension']
     },
     files: [
@@ -102,5 +155,6 @@ grunt.initConfig({
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
 
 ## Release History
+* 1.0.3 - Support for newer version of showdown.js and grunt
 * 1.0.1 - Support cwd file option + unit tests
 * 1.0.0 - Init project. Custom showdown extension support

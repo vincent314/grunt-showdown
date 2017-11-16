@@ -39,8 +39,11 @@ module.exports = function (grunt) {
                     }
                 ],
                 options: {
-                    extensions: ['github','table'],
-                    customExtensions: ['showdown-furigana-extension']
+                    customExtensions: ['showdown-furigana-extension'],
+                    showdown: {
+                        tables: true,
+                        strikethrough: true,
+                    }
                 }
             },
             testSingle: {
@@ -52,8 +55,9 @@ module.exports = function (grunt) {
                     }
                 ],
                 options: {
-                    extensions: ['github','table'],
-                    customExtensions: ['showdown-furigana-extension']
+                    showdown: {
+                        tables: true
+                    }
                 }
             }
         },
@@ -61,12 +65,6 @@ module.exports = function (grunt) {
         // Unit tests.
         nodeunit: {
             tests: ['test/*Spec.js']
-        },
-
-        debug: {
-            options: {
-                open: false // do not open node-inspector in Chrome automatically
-            }
         },
 
         mkdir: {
@@ -86,7 +84,6 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-nodeunit');
-    grunt.loadNpmTasks('grunt-debug-task');
     grunt.loadNpmTasks('grunt-mkdir');
 
     // Whenever the "test" task is run, first clean the "tmp" dir, then run this
