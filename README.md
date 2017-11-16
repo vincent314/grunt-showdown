@@ -64,7 +64,7 @@ This is the default showdown.js options object. Please have look at the showdown
 
 At the time of writing this are the default values:
 
-```json
+```javascript
 { 
   omitExtraWLInCodeBlocks: false,
   noHeaderId: false,
