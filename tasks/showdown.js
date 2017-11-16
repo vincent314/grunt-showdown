@@ -7,7 +7,7 @@
  */
 
 'use strict';
-var Showdown = require('showdown');
+var showdown = require('showdown');
 var path = require('path');
 var fs = require('fs');
 
@@ -22,17 +22,24 @@ module.exports = function (grunt) {
         // Merge task-specific and/or target-specific options with these defaults.
         var options = this.options({
                 fileExtension: 'md',
-                extensions: [],
-                customExtensions: []
+                customExtensions: [],
+                showdown: {
+                    extensions: []
+                },
             }
         );
 
-        options.customExtensions.forEach(function (ext) {
-            options.extensions.push(require(ext));
-        });
+        if (options.customExtensions != null && options.customExtensions.length > 0) {
+            if (options.showdown.extensions == null || options.showdown.extensions.length === 0) { 
+                options.showdown.extensions = [];
+            }
+            options.customExtensions.forEach(function (ext) {
+                options.showdown.extensions.push(require(ext));
+            });
+        }
 
-
-        var showdown = new Showdown.converter({extensions: options.extensions});
+        var sd = new showdown.Converter(options.showdown);
+     
         // Iterate over all specified file groups.
         this.files.forEach(function (f) {
             var writer;
@@ -52,7 +59,7 @@ module.exports = function (grunt) {
                 }
             }).forEach(function (file) {
                 var filepath = path.join(f.cwd || '', file);
-                var result = showdown.makeHtml(grunt.file.read(filepath));
+                var result = sd.makeHtml(grunt.file.read(filepath));
 
                 if (writer) {
                     writer.write(result);
